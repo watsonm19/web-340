@@ -1,6 +1,6 @@
 /*
 ===============================================
-; Title: Exercise 4.2 - HTTP Status Codes
+; Title: Exercise 4.2 - JSON API's
 ; Author: Professor Krasso
 ; Date: 31 January 2021
 ; Modified By: Mark Watson
