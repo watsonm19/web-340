@@ -4,7 +4,7 @@
 ; Author: Professor Krasso
 ; Date: 07 February 2021
 ; Modified By: Mark Watson
-; Description: This demonstrates
+; Description: This demonstrates EJS if..else..render operations.
 ===============================================
 */
 
