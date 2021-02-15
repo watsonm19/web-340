@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('header') -%>
+<body>
+<%- include('navbar') -%>
+<div class="container mt-3">
+  <h1 class="mb-3">Add New Employee</h1>
+  <form>
+    <div class="form-group">
+      <label for="first">First Name</label>
+      <input type="text" class="form-control" id="first">
+    </div>
+    <div class="form-group">
+      <label for="last">Last Name</label>
+      <input type="text" class="form-control" id="last">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="check-info" required>
+      <label class="form-check-label" for="check-info">Check box if information is accurate.</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<%- include('footer') -%>
+<% include('scripts') %>
+</body>
+</html>
