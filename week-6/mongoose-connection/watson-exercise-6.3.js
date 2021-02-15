@@ -5,6 +5,7 @@
 ; Date:        14 February 2021
 ; Modified By: Mark Watson
 ; Description: Demonstrates how to connect an application to MongoDB using mongoose.
+;              (Connects to ems-cluster for EMS project)
 ;===========================================
 */
 
