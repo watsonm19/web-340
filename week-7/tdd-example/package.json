@@ -1,0 +1,13 @@
+{
+  "name": "tdd-example",
+  "author": "Mark Watson",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "chai": "^4.3.0",
+    "mocha": "^8.3.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
