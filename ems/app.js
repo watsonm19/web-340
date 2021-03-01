@@ -14,13 +14,19 @@ const http = require('http');
 const helmet = require('helmet');
 const path = require('path');
 const logger = require('morgan');
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 const mongoose = require('mongoose');
 
 // import schema
 const Employee = require('./models/employee');
 
+// setup csrf protection
+const csrfProtection = csrf({cookie: true});
+
 // connect to MongoDB Atlas
-const mongoDB = 'mongodb+srv://admin:admin@ems-cluster.0eims.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const mongoDB = 'mongodb+srv://admin:admin@ems-cluster.0eims.mongodb.net/mark-buwebdev?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 // database connection error
@@ -33,15 +39,26 @@ db.once('open', function() {
 // initialize app
 const app = express();
 
-// the views are in the "views" directory
-app.set('views', path.resolve(__dirname, 'views'));
-// use the EJS view engine
-app.set('view engine', 'ejs');
-
-// use Morgan's short option for logging
+// use statements
 app.use(logger('short'));
-// use helmet's Content-Security-Policy in the HTTP header
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(helmet.xssFilter());
+app.use(cookieParser());
+app.use(csrfProtection);
+/**
+ * Intercepts all incoming requests and adds a CSRF token to the response.
+*/
+app.use(function(req, res, next) {
+  const token = req.csrfToken();
+  res.cookie('XRSF-TOKEN', token);
+  res.locals.csrfToken = token;
+});
+
+// set.statements
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // model
 const employee = new Employee({
@@ -87,6 +104,31 @@ app.get('/new', function(req, res) {
     title: 'Add Employee'
   });
 });
+
+app.post('/process', function(req, res) {
+  if(!req.body.firstName && !req.body.lastName) {
+    res.status(400).send('New employees must enter a full name');
+    return
+  }
+
+  const employeeFirstName = req.body.firstName;
+  const employeeLastName = req.body.lastName;
+  console.log('adding ' + employeeFirstName + ' ' + employeeLastName);
+
+  let employee = new Employee({
+    firstName: employeeFirstName,
+    lastName: employeeLastName
+  })
+
+  employee.save(function(err) {
+    if(err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employeeFirstName + ' ' + employeeLastName+ ' saved successfully!');
+    }
+  })
+})
 
 // SERVER
 
