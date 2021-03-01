@@ -26,14 +26,15 @@ const Employee = require('./models/employee');
 const csrfProtection = csrf({cookie: true});
 
 // connect to MongoDB Atlas
-const mongoDB = 'mongodb+srv://admin:admin@ems-cluster.0eims.mongodb.net/mark-buwebdev?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
-// database connection error
-db.on('error', console.error.bind(console, 'connection error:'));
-// db connection success
-db.once('open', function() {
-  console.log('App is connected to Mongo Atlas: ems-cluster')
+const mongoDB = 'mongodb+srv://admin:admin@ems-cluster.0eims.mongodb.net/ems?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+}).then(() => {
+  console.log('App is connected to MongoDB Atlas: ems/ems-cluster');
+}).catch(err => {
+  console.log(`MongoDB Error: ${err.message}`);
 });
 
 // initialize app
@@ -54,17 +55,12 @@ app.use(function(req, res, next) {
   const token = req.csrfToken();
   res.cookie('XRSF-TOKEN', token);
   res.locals.csrfToken = token;
+  next();
 });
 
-// set.statements
+// set statements
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-// model
-const employee = new Employee({
-  firstName: 'Mark',
-  lastName: 'Watson'
-})
 
 // ROUTES
 
@@ -73,7 +69,7 @@ const employee = new Employee({
 */
 app.get('/', function(req, res) {
   res.render('index', {
-    title: 'Homepage'
+    title: 'EMS | Home'
   })
 });
 
@@ -81,8 +77,17 @@ app.get('/', function(req, res) {
  * returns the list.ejs page
 */
 app.get('/employees-list', function(req, res) {
-  res.render('list', {
-    title: 'All Employees'
+  Employee.find({}, function(err, employees) {
+    if (err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employees);
+      res.render('list', {
+        title: 'All Employees',
+        employees: employees
+      });
+    }
   });
 });
 
@@ -105,10 +110,14 @@ app.get('/new', function(req, res) {
   });
 });
 
+/**
+ * saves form data to MongoDB
+ * redirects to the list.ejs page
+*/
 app.post('/process', function(req, res) {
   if(!req.body.firstName && !req.body.lastName) {
     res.status(400).send('New employees must enter a full name');
-    return
+    return;
   }
 
   const employeeFirstName = req.body.firstName;
@@ -128,7 +137,9 @@ app.post('/process', function(req, res) {
       console.log(employeeFirstName + ' ' + employeeLastName+ ' saved successfully!');
     }
   })
-})
+
+  res.redirect('/employees-list');
+});
 
 // SERVER
 

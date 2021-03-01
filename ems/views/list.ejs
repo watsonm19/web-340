@@ -11,6 +11,7 @@
   </div>
 </div>
 
+<% if (employees.length) { %>
 <!-- table view of all employees -->
 <div class="container-fluid">
   <table class="table table-striped table-hover mb-5">
@@ -23,27 +24,20 @@
       </tr>
     </thead>
     <tbody>
+      <% employees.forEach(function(employee) { %>
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Watson</td>
-        <td><a href="/employee/1"><span class="badge badge-primary badge-pill">view</span></a></td>
+        <th scope="row"><%= employee._id %></th>
+        <td><%= employee.firstName %></td>
+        <td><%= employee.lastName %></td>
+        <td><a href="/employee/<%= employee._id %>"><span class="badge badge-primary badge-pill">view</span></a></td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>LeBron</td>
-        <td>James</td>
-        <td><a href="/employee/2"><span class="badge badge-primary badge-pill">view</span></td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Michael</td>
-        <td>Jordan</td>
-        <td><a href="/employee/3"><span class="badge badge-primary badge-pill">view</span></td>
-      </tr>
+      <% }) %>
     </tbody>
   </table>
 </div>
+<% } else { %> <h4 class="m-4">No entries, yet!</h4>
+<% } %>
+<a class="btn btn-success ml-3" href="/new" role="button">Add Employee</a>
 
 <%- include('footer') -%>
 <% include('scripts') %>

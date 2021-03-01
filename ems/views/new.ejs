@@ -19,9 +19,15 @@
       <input type="checkbox" class="form-check-input" id="check-info" required>
       <label class="form-check-label" for="check-info">Check box if information is accurate.</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+      <!-- csrf token -->
+      <input name="_csrf" value="<%= csrfToken %>" type="hidden">
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
   </form>
 </div>
+
 <%- include('footer') -%>
 <% include('scripts') %>
 </body>
