@@ -11,6 +11,7 @@
 // import required modules
 const express = require('express');
 const http = require('http');
+const helmet = require('helmet');
 const path = require('path');
 const logger = require('morgan');
 const mongoose = require('mongoose');
@@ -39,6 +40,8 @@ app.set('view engine', 'ejs');
 
 // use Morgan's short option for logging
 app.use(logger('short'));
+// use helmet's Content-Security-Policy in the HTTP header
+app.use(helmet.xssFilter());
 
 // model
 const employee = new Employee({
