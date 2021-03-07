@@ -1,9 +1,8 @@
 /*
 ===============================================
 ; Title: EMS - User Interface Development
-; Author: Professor Krasso, Professor Massoud
+; Author: Mark Watson
 ; Date: 07 February 2021
-; Modified By: Mark Watson
 ; Description: This application is intended to work as an employee management system.
 ===============================================
 */
