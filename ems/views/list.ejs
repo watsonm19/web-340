@@ -29,7 +29,7 @@
         <th scope="row"><%= employee._id %></th>
         <td><%= employee.firstName %></td>
         <td><%= employee.lastName %></td>
-        <td><a href="/employee/<%= employee._id %>"><span class="badge badge-primary badge-pill">view</span></a></td>
+        <td><a href="/view/<%= employee.firstName %>"><span class="badge badge-primary badge-pill">view</span></a></td>
       </tr>
       <% }) %>
     </tbody>

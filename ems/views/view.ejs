@@ -3,13 +3,52 @@
 <%- include('header') -%>
 <body>
 <%- include('navbar') -%>
+<!-- page header and title -->
+<div class="container-fluid mt-3">
+  <div class="jumbotron">
+      <h1 class="display-4"><%= title %></h1>
+      <p class="lead"></p>
+  </div>
+</div>
 
 <!-- employee data -->
 <div class="container-fluid">
-  <h1 class="m-5">This will be a view of <%= title %></h1>
+    <div class="form-group">
+      <label for="txtId">ID:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="txtId"
+        readonly
+        value="<%= employee[0]._id %>"
+        name="txtId"
+      >
+    </div>
+    <div>
+      <label for="txtFirstName">First Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="txtFirstName"
+        readonly
+        value="<%= employee[0].firstName %>"
+        name="txtFirstName"
+      >
+    </div>
+    <div class="form-group">
+      <label for="txtLastName">Last Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="txtLastName"
+        readonly
+        value="<%= employee[0].lastName %>"
+        name="txtLastName"
+      >
+    </div>
 
-  <!-- back button -->
-  <a href="/employees-list" class="btn btn-primary btn-lg ml-5" role="button">Go Back</a>
+    <!-- back button -->
+  <a href="/employees-list" class="btn btn-primary btn-lg m-2" role="button">Go Back</a>
 </div>
 
 <%- include('footer') -%>

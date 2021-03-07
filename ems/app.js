@@ -69,7 +69,7 @@ app.set('view engine', 'ejs');
 */
 app.get('/', function(req, res) {
   res.render('index', {
-    title: 'EMS | Home'
+    title: 'Home'
   })
 });
 
@@ -88,16 +88,6 @@ app.get('/employees-list', function(req, res) {
         employees: employees
       });
     }
-  });
-});
-
-/**
- * returns the view.ejs page
-*/
-app.get('/employee/:id', function(req, res) {
-  id = req.params.id;
-  res.render('view', {
-    title: `Employee: ${id}`
   });
 });
 
@@ -139,6 +129,32 @@ app.post('/process', function(req, res) {
   })
 
   res.redirect('/employees-list');
+});
+
+/**
+ * returns the view.ejs page
+ * renders a single employee's data
+*/
+app.get('/view/:queryName', function(req, res) {
+  const queryName = req.params.queryName;
+
+  Employee.find({'firstName': queryName}, function(err, employees) {
+    if (err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(employees);
+
+      if (employees.length > 0) {
+        res.render('view', {
+          title: 'Employee Details',
+          employee: employees
+        })
+      } else {
+        res.redirect('/');
+      }
+    }
+  })
 });
 
 // SERVER
