@@ -59,6 +59,7 @@ app.use(function(req, res, next) {
 });
 
 // set statements
+app.set('PORT', process.env.PORT || 8080);
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -162,6 +163,6 @@ app.get('/view/:queryName', function(req, res) {
 /**
  * creates server listening on PORT 8080
 */
-http.createServer(app).listen(8080, function() {
-  console.log('App is listening on PORT 8080');
+http.createServer(app).listen(app.get('PORT'), function() {
+  console.log('App is listening on PORT' + app.get('PORT'));
 });
